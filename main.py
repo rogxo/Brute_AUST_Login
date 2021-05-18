@@ -23,7 +23,7 @@ def dump_password():
 
 
 def brute(session, username: str, password: str):
-    url = 'http://10.255.0.19/drcom/login?callback=dr1003&DDDDD=' + username + '&upass=' + password + '&0MKKey=123456&R1=0&R3=0&R6=0&para=00&v6ip=&v='
+    url = 'http://10.255.0.19/drcom/login?callback=dr1004&DDDDD=' + username + '&upass=' + password + '&0MKKey=123456&R1=0&R3=0&R6=0&para=00&v6ip=&v='
     headers = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0',
                'Referer': 'http://10.255.0.19/a79.htm'}
     r = session.get(url=url, headers=headers, verify=False)
