@@ -41,7 +41,7 @@ def brute(session, username: str, password: str):
 
 
 if __name__ == '__main__':
-    mode = 2
+    mode = 1
     dic_username = dump_username()
     dic_password = dump_password()
     session = requests.session()
