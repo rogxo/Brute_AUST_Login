@@ -73,4 +73,4 @@ def choose_mode(mode:int):
 if __name__ == '__main__':
     #mode=1,2:cluster bomb
     #mode=3:battering ram
-    choose_mode(3)
+    choose_mode(1)
