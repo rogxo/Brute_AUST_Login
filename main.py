@@ -78,7 +78,7 @@ def choose_mode(mode: int):
                 i = i + 1
                 if i == 124:
                     tmp = password
-                    i = 0
+                    i = 1
                     time.sleep(805)
                     brute(session, username, tmp)
 
