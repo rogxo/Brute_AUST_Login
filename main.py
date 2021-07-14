@@ -87,4 +87,4 @@ if __name__ == '__main__':
     # mode=1,2:cluster bomb
     # mode=3:battering ram
     # mode=4:single thread
-    choose_mode(4)
+    choose_mode(1)
